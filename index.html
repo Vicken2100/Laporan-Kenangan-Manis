@@ -1,0 +1,387 @@
+```html
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vicken Booth Finance</title>
+
+    <link rel="stylesheet" href="style.css" />
+
+    <!-- Google Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    />
+  </head>
+  <body>
+    <!-- Overlay Sidebar Mobile -->
+    <div id="overlay" class="overlay"></div>
+
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <h2>📷 Vicken Booth</h2>
+        <span id="roleBadge">MODE KASIR</span>
+      </div>
+
+      <!-- Menu Kasir -->
+      <nav id="cashierMenu">
+        <button class="menu-btn active" data-page="incomePage">
+          <i class="fa-solid fa-camera"></i>
+          Pendapatan
+        </button>
+
+        <button class="menu-btn owner-login-btn" id="ownerLoginBtn">
+          <i class="fa-solid fa-key"></i>
+          Login Owner
+        </button>
+      </nav>
+
+      <!-- Menu Owner -->
+      <nav id="ownerMenu" style="display: none">
+        <button class="menu-btn" data-page="dashboardPage">
+          <i class="fa-solid fa-chart-line"></i>
+          Dashboard
+        </button>
+
+        <button class="menu-btn active" data-page="incomePage">
+          <i class="fa-solid fa-camera"></i>
+          Pendapatan
+        </button>
+
+        <button class="menu-btn" data-page="expensePage">
+          <i class="fa-solid fa-wallet"></i>
+          Pengeluaran
+        </button>
+
+        <button class="menu-btn" data-page="historyPage">
+          <i class="fa-solid fa-clock-rotate-left"></i>
+          Riwayat
+        </button>
+
+        <button class="menu-btn" data-page="reportPage">
+          <i class="fa-solid fa-file-lines"></i>
+          Laporan
+        </button>
+
+        <button class="menu-btn" data-page="paperPage">
+          <i class="fa-solid fa-layer-group"></i>
+          Stok Kertas
+        </button>
+
+        <button class="menu-btn" data-page="settingPage">
+          <i class="fa-solid fa-gear"></i>
+          Pengaturan
+        </button>
+
+        <button class="menu-btn" data-page="backupPage">
+          <i class="fa-solid fa-floppy-disk"></i>
+          Backup
+        </button>
+
+        <button class="menu-btn logout-owner" id="logoutOwnerBtn">
+          <i class="fa-solid fa-right-from-bracket"></i>
+          Keluar Mode Owner
+        </button>
+      </nav>
+    </aside>
+
+    <!-- Main -->
+    <main class="main-content">
+      <!-- Header -->
+      <header class="topbar">
+        <button class="hamburger" id="hamburgerBtn">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+
+        <div>
+          <h1 id="pageTitle">Pendapatan</h1>
+          <small id="todayDate">-</small>
+        </div>
+      </header>
+
+      <!-- ======================
+             HALAMAN PENDAPATAN
+        ======================= -->
+      <section class="page active-page" id="incomePage">
+        <!-- Input -->
+        <div class="card" id="incomeFormCard">
+          <h2>Input Pendapatan</h2>
+
+          <div class="form-group">
+            <label>Pakai Voucher?</label>
+
+            <div class="radio-group">
+              <label>
+                <input type="radio" name="voucher" value="no" checked />
+                Tidak
+              </label>
+
+              <label>
+                <input type="radio" name="voucher" value="yes" />
+                Ya
+              </label>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Tambahan Strip</label>
+
+            <input type="number" id="extraStrip" min="0" value="0" />
+          </div>
+
+          <div class="form-group">
+            <label>Kertas Rusak</label>
+
+            <input type="number" id="brokenPaper" min="0" value="0" />
+          </div>
+
+          <div class="form-group">
+            <label>Keterangan (Opsional)</label>
+
+            <textarea
+              id="incomeNote"
+              rows="3"
+              placeholder="Masukkan catatan..."
+            ></textarea>
+          </div>
+
+          <button class="primary-btn" id="continueIncomeBtn">LANJUTKAN</button>
+        </div>
+
+        <!-- Konfirmasi -->
+        <div class="card" id="incomeSummaryCard" style="display: none">
+          <h2>Ringkasan Transaksi</h2>
+
+          <div class="summary-box">
+            <div class="summary-row">
+              <span>Harga Dasar</span>
+              <span id="summaryBasePrice">Rp0</span>
+            </div>
+
+            <div class="summary-row">
+              <span>Voucher</span>
+              <span id="summaryVoucher">Rp0</span>
+            </div>
+
+            <div class="summary-row">
+              <span>Tambahan Strip</span>
+              <span id="summaryExtra">Rp0</span>
+            </div>
+
+            <hr />
+
+            <div class="summary-row total-row">
+              <span>TOTAL</span>
+              <span id="summaryTotal">Rp0</span>
+            </div>
+
+            <div class="summary-row">
+              <span>Kertas Terpakai</span>
+              <span id="summaryPaper">0 lembar</span>
+            </div>
+          </div>
+
+          <div class="summary-note">
+            <strong>Keterangan:</strong>
+
+            <p id="summaryNote">-</p>
+          </div>
+
+          <div class="button-group">
+            <button class="secondary-btn" id="backIncomeBtn">KEMBALI</button>
+
+            <button class="primary-btn" id="saveIncomeBtn">
+              SIMPAN TRANSAKSI
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ======================
+             DASHBOARD OWNER
+        ======================= -->
+      <section class="page" id="dashboardPage">
+        <div class="card">
+          <h2>Dashboard</h2>
+
+          <div class="dashboard-grid">
+            <div class="dashboard-item">
+              <h3>Pendapatan Hari Ini</h3>
+
+              <p id="todayIncome">Rp0</p>
+            </div>
+
+            <div class="dashboard-item">
+              <h3>Pengeluaran Hari Ini</h3>
+
+              <p id="todayExpense">Rp0</p>
+            </div>
+
+            <div class="dashboard-item">
+              <h3>Laba Hari Ini</h3>
+
+              <p id="todayProfit">Rp0</p>
+            </div>
+
+            <div class="dashboard-item">
+              <h3>Jumlah Sesi</h3>
+
+              <p id="todaySession">0</p>
+            </div>
+
+            <div class="dashboard-item">
+              <h3>Sisa Kertas</h3>
+
+              <p id="paperStock">0</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Placeholder -->
+      <section class="page" id="expensePage">
+        <div class="card">
+          <h2>Pengeluaran</h2>
+          <p>Segera hadir pada V2.</p>
+        </div>
+      </section>
+
+      <section class="page" id="historyPage">
+        <div class="card">
+          <h2>Riwayat</h2>
+          <p>Segera hadir pada V2.</p>
+        </div>
+      </section>
+
+      <section class="page" id="reportPage">
+        <div class="card">
+          <h2>Laporan Harian</h2>
+
+          <div class="dashboard-item">
+            <h3>Pendapatan</h3>
+            <p id="reportIncome">Rp0</p>
+          </div>
+
+          <div class="dashboard-item">
+            <h3>Pengeluaran</h3>
+            <p id="reportExpense">Rp0</p>
+          </div>
+
+          <div class="dashboard-item">
+            <h3>Laba</h3>
+            <p id="reportProfit">Rp0</p>
+          </div>
+
+          <div class="dashboard-item">
+            <h3>Sesi Transaksi</h3>
+            <p id="reportSession">0</p>
+          </div>
+
+          <button class="primary-btn" onclick="loadReport()">
+            REFRESH LAPORAN
+          </button>
+        </div>
+      </section>
+
+      <section class="page" id="paperPage">
+        <div class="card">
+          <h2>Stok Kertas</h2>
+
+          <div class="dashboard-item">
+            <h3>Sisa Kertas</h3>
+            <p id="paperStockValue">0</p>
+          </div>
+
+          <div class="form-group">
+            <label>Tambah Stok</label>
+            <input type="number" id="addPaperStock" placeholder="contoh: 50" />
+          </div>
+
+          <button class="primary-btn" onclick="addPaperStock()">
+            TAMBAH STOK
+          </button>
+        </div>
+      </section>
+
+      <section class="page" id="settingPage">
+        <div class="card">
+          <h2>Pengaturan Sistem</h2>
+
+          <div class="form-group">
+            <label>Password Owner</label>
+            <input type="password" id="newPassword" />
+          </div>
+
+          <div class="form-group">
+            <label>Harga Normal</label>
+            <input type="number" id="priceNormal" />
+          </div>
+
+          <div class="form-group">
+            <label>Diskon Voucher</label>
+            <input type="number" id="priceVoucher" />
+          </div>
+
+          <div class="form-group">
+            <label>Harga Strip Tambahan</label>
+            <input type="number" id="priceStrip" />
+          </div>
+
+          <button class="primary-btn" onclick="saveSettings()">
+            SIMPAN PENGATURAN
+          </button>
+        </div>
+      </section>
+
+      <section class="page" id="backupPage">
+        <div class="card">
+          <h2>Backup & Restore</h2>
+
+          <button class="primary-btn" onclick="exportBackup()">
+            DOWNLOAD BACKUP
+          </button>
+
+          <br /><br />
+
+          <input type="file" id="importFile" />
+
+          <button class="secondary-btn" onclick="handleImport()">
+            RESTORE BACKUP
+          </button>
+        </div>
+      </section>
+    </main>
+
+    <!-- Modal Password Owner -->
+    <div class="modal" id="ownerModal">
+      <div class="modal-content">
+        <h2>Login Owner</h2>
+
+        <p>Masukkan password owner.</p>
+
+        <input type="password" id="ownerPassword" placeholder="Password" />
+
+        <div class="button-group">
+          <button class="secondary-btn" id="cancelOwnerBtn">BATAL</button>
+
+          <button class="primary-btn" id="confirmOwnerBtn">MASUK</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Toast -->
+    <div class="toast" id="toast">
+      <span id="toastMessage"></span>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
